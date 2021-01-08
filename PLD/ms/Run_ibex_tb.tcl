@@ -58,16 +58,16 @@ alias c "
 	#vlog -O0 +acc $VIVpr/ibex_sys_atrix7.sv
 	
 	vlog -O0 +acc $QUApr/TwoWhellPlatform.sv
-	vlog -O0 +acc $QUApr/FIFOa.v
-	vlog -O0 +acc $QUApr/PLL.v
-	vlog -O0 +acc $QUApr/RAM.v
-	vlog -O0 +acc $QUApr/RAM_instr.v
-	vlog -O0 +acc $QUApr/RAMdp.v
+	#vlog -O0 +acc $QUApr/FIFOa.v
+	#vlog -O0 +acc $QUApr/PLL.v
+	#vlog -O0 +acc $QUApr/RAM.v
+	#vlog -O0 +acc $QUApr/RAM_instr.v
+	#vlog -O0 +acc $QUApr/RAMdp.v
 
 "
 alias s "
 	vopt +acc -novopt -O0 work.ibex_sys_tb -o ibex_sys_tb_opt
-	vsim  work.ibex_sys_tb_opt -t 1ps
+	vsim  work.ibex_sys_tb_opt -t 1ns
 	do wave_ibex_sys_Cyclone.do
 	
 	run 1 us

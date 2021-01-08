@@ -1,6 +1,5 @@
  `include "../source/defines.sv"
  `include "../source/peripherial/uart_module/defUART.v"
- `timescale 1 ps / 1 ps
  
  module UART_emu(
 	TX, //TX UART line
@@ -40,7 +39,7 @@
  logic [31:0] numb; 
 
  logic [3:0] h; 
-  logic [3:0] l; 
+ logic [3:0] l; 
 
  // int h; 
  // int l; 
@@ -115,14 +114,10 @@
 	busWR8(`defU_DLL,`BR921600); //Set
 	
 	 busWR8(`defU_FIFOtx,8'h63);
-	 #100000000;
 	 busWR8(`defU_FIFOtx,8'h6D);
-	 #100000000;
 	 busWR8(`defU_FIFOtx,8'h64);
-	 #100000000;
 	 busWR8(`defU_FIFOtx,8'h01);
-	 #100000000;
-	 busWR8(`defU_FIFOtx,8'h01);
+	 busWR8(`defU_FIFOtx,8'h02);
 	
 	
 	// while(1) begin 
@@ -181,13 +176,13 @@
  endtask 
 
  initial begin // clk64
-	#3000 Clk = 1;
-	forever  #8000 Clk = ~Clk;
+	#(3*(`tm_scale)) Clk = 1;
+	forever  #(8*(`tm_scale)) Clk = ~Clk;
  end
 
  initial begin // clk64
-	#14000 Clk_14MHz = 0;
-	forever  #34000 Clk_14MHz = ~Clk_14MHz;
+	#(14*(`tm_scale)) Clk_14MHz = 0;
+	forever  #(34*(`tm_scale)) Clk_14MHz = ~Clk_14MHz;
  end
 	
  UART #(
@@ -214,7 +209,7 @@
 	CPUctr.we  = 0;
 	CPUdat.be  = 4'b0000;
 
- 	#10000000;
+ 	#(10000*(`tm_scale));
 	@(posedge Clk);
 
 	fun_UART_tst();
@@ -222,7 +217,7 @@
  
  initial begin
 	Rst = 1;
-	#100000;
+	#(100*(`tm_scale));
 	Rst = 0;
  end
  

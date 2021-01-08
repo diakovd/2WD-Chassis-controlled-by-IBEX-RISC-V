@@ -70,6 +70,56 @@ uint8_t sendEV1[] = " ev1 = ";
 uint8_t ISR_uart;
 uint32_t ISR_tm;
 
+uint8_t rpm_min = 0;
+uint8_t rpm_max = 190;
+
+
+
+uint8_t minU = 0xA0;
+uint8_t maxU = 0xFF;
+uint8_t goalSpeed = 10;
+
+float Kp = 0.5; // Коэффициенты П, И и Д - звеньев
+float Ki = 0;
+float Kd = 0;
+
+float integral = 0;
+float pred_err = 0;
+float min_integral = -100.0;
+float max_integral = 100.0;
+float error;
+float Y,U;
+
+float Eval(float err)
+{ 
+  float y;
+
+  integral = integral + err; // добавить ошибку в сумму ошибок
+  if(integral>max_integral) integral=max_integral;
+  if(integral<min_integral) integral=min_integral;
+  float rdiff = Kd*(err - pred_err);
+  // вычисление управляющего воздействия
+  y = (Kp*err + Ki*integral + rdiff);
+  pred_err = err; // текущая ошибка стала "прошлой ошибкой"
+  // для след. вычисления
+  return y;
+}
+
+float y2u(float y)
+{
+  float u;
+  float maxY;
+  float minY;
+
+  maxY = Kp*rpm_max + Ki*max_integral + Kd*rpm_max;
+  minY = -maxY;
+  u = (y-minY)/(maxY-minY)*(maxU-minU)+minU;
+  if(u>maxU) u = maxU;
+  if(u<minU) u = minU;
+  return u;
+}
+
+
 /*
 void handle_UART_interrupt()
 {
@@ -228,6 +278,12 @@ void main(void) {
     if(ISR_tm & tm_Ev0DS){
       TmCap1mCap0 = Timer_REG(dTmC1mC0);
       rpm = min/(tic*TmCap1mCap0*20);
+
+      error = goalSpeed - rpm;
+      Y = Eval(error);
+      U = y2u(Y);
+      Timer1_REG(dTmCmpSh) = (int) U;
+
  //     IO_REG32(0x4) = TmCap1mCap0;
       for(i = 0; i < 7; i++) UART0_REG(dFIFOtx_UART) = sendEV0[i];
       sprintf(str, "%d", rpm);
@@ -239,6 +295,12 @@ void main(void) {
     if(ISR_tm & tm_Ev1DS){
       TmCap1mCap0 = Timer_REG(dTmC3mC2);
       rpm = min/(tic*TmCap1mCap0*20);
+
+      error = goalSpeed - rpm;
+      Y = Eval(error);
+      U = y2u(Y);
+      Timer1_REG(dTmCmpSh) = (int) U;
+
 //      IO_REG32(0x4) = TmCap1mCap0;
       for(i = 0; i < 7; i++) UART0_REG(dFIFOtx_UART) = sendEV1[i];
       sprintf(str, "%d", rpm);
@@ -252,7 +314,7 @@ void main(void) {
   }
   else if (pullInt & uartInt){
     RxCntL = UART0_REG(dRxCntL_UART);
-    //IO_REG32(0x4) = RxCntL;
+    IO_REG32(0x4) = RxCntL;
 
     //for (j =0; j < RxCntL; j++) str[j] = UART0_REG(dFIFOrx_UART);
     //for(j = 0; j < RxCntL; j++) UART0_REG(dFIFOtx_UART) = str[j];
@@ -262,7 +324,6 @@ void main(void) {
     //RX cmd
     for (j =0; j < RxCntL; j++){
       str[0] = UART0_REG(dFIFOrx_UART);
-      //UART0_REG(dFIFOtx_UART) = str[0];
       IO_REG32(0x4) = str[0];
       switch(state)
       {

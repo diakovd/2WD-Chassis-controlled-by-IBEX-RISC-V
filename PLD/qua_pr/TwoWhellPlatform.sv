@@ -1,7 +1,5 @@
 `include "../source/defines.sv"
 
-`timescale 1 ps / 1 ps
-
  module TwoWhellPlatform(
  
 	output TX,
@@ -43,7 +41,7 @@ end
 else if(VENDOR == "Simulation") begin
  
  initial Clk_14_7456MHz = 0;
- always #34000 Clk_14_7456MHz <= ~Clk_14_7456MHz; 
+ always #(34*(`tm_scale)) Clk_14_7456MHz <= ~Clk_14_7456MHz; 
  
  assign Clk_sys = Clk;
 
@@ -67,10 +65,10 @@ endgenerate
 	.clk_sys(Clk_sys)
  );
 
- assign Mta =(IO[1])? {!PWM[0],PWM[0]} : {PWM[0],!PWM[0]};
- assign ENa = !Btn | IO[0];//IO[2];
- assign Mtb =(IO[2])? {PWM[1],!PWM[1]} : {!PWM[1],PWM[1]};
- assign ENb = !Btn | IO[0];//IO[3];
+ assign Mta =(IO[0])? {!PWM[0],PWM[0]} : {PWM[0],!PWM[0]};
+ assign ENa = !Btn;//IO[2];
+ assign Mtb =(IO[1])? {PWM[1],!PWM[1]} : {!PWM[1],PWM[1]};
+ assign ENb = !Btn;//IO[3];
 
 
  endmodule

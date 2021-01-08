@@ -1,6 +1,10 @@
 `ifndef IBEXSIS_DEFINES_H
 `define IBEXSIS_DEFINES_H
 
+//`timescale 1 ps / 1 ps
+//`timescale 	1 ns / 1 ns
+`define 	tm_scale 1
+
 
  //adsress defintion
  `define addrBASE_RAM  		32'h2000

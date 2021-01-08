@@ -7,8 +7,6 @@
 `define defSIM
 // synthesis translate_on
 
-`timescale 1 ps / 1 ps
-
  module ibex_sys (
 	output TX,
 	input  RX,

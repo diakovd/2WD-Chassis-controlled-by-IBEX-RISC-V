@@ -3,7 +3,6 @@
  */
 `define SRAM_INIT_FILE
 `include "../source/defines.sv"
-`timescale 1ps/1ps
 
 module rom_1p #(
     parameter VENDOR = "Xilinx", //optional "IntelFPGA" , "Simulation", "Xilinx" 
