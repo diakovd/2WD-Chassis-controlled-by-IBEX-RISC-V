@@ -7,10 +7,10 @@
 
 
  //adsress defintion
- `define addrBASE_RAM  		32'h2000
- `define size_RAM			32'h2000
+ `define addrBASE_RAM  		32'h3000
+ `define size_RAM			32'h1000
  `define addrBASE_IOmodule 	(`addrBASE_RAM + `size_RAM)
- `define size_IOmodule 		32'h00008
+ `define size_IOmodule 		32'h0000C
 
  `define addrBASE_UART0  (`addrBASE_IOmodule + `size_IOmodule)
  `define size_UART0 	   32'h00010

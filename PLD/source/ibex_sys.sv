@@ -13,6 +13,16 @@
 	
     output [31:0] IO,
 	
+	output [7:0] LEDen,
+	output	LEDA,
+	output	LEDB,
+	output	LEDC,
+	output	LEDD,
+	output	LEDE,
+	output	LEDF,
+	output	LEDG,
+	output	LEDDP,
+	
 	output [1:0] PWM,
 	input  [1:0] Evnt,
 	
@@ -40,19 +50,21 @@
   logic [31:0] data_wdata;
   logic [31:0] data_rdata;
 
-  // SRAM arbiter
-  logic [31:0] mem_addr;
-  logic        mem_req;
-  logic        mem_write;
-  logic  [3:0] mem_be;
-  logic [31:0] mem_wdata;
-  logic        mem_rvalid;
-  logic [31:0] mem_rdata;
+ // SRAM arbiter
+ logic [31:0] mem_addr;
+ logic        mem_req;
+ logic        mem_write;
+ logic  [3:0] mem_be;
+ logic [31:0] mem_wdata;
+ logic        mem_rvalid;
+ logic [31:0] mem_rdata;
 
  logic Int_UART;
  logic Int_Timer;
  logic Int_Timer1;
  logic RstBoot;
+
+ logic [63:0] dgt1_8;
 
  // CPUdataMemBus 	CPUdataMem();
  // RAMbus  		Data_RAMbus();
@@ -202,9 +214,33 @@
 
    //IO out
    .IO(IO),
+   .dgt1_8(dgt1_8),
    
    .Rst(!rst_sys_n | RstBoot),	
    .Clk(clk_sys)
+ );
+ 
+ LED8x8 LED8x8_inst(
+	.digit1(dgt1_8[7:0]),
+	.digit2(dgt1_8[15:8]),
+	.digit3(dgt1_8[23:16]),
+	.digit4(dgt1_8[31:24]),
+	.digit5(dgt1_8[39:32]),
+	.digit6(dgt1_8[47:40]),
+	.digit7(dgt1_8[55:48]),
+	.digit8(dgt1_8[63:56]),
+	
+	.LEDen(LEDen),
+	.LEDA(LEDA),
+	.LEDB(LEDB),
+	.LEDC(LEDC),
+	.LEDD(LEDD),
+	.LEDE(LEDE),
+	.LEDF(LEDF),
+	.LEDG(LEDG),
+	.LEDDP(LEDDP),
+	
+	.Clk(clk_sys)
  );
 
  UART #(

@@ -101,7 +101,8 @@
 	while(1) #((T_EV1/2)*(`tm_scale)) Evnt[1] <= ~Evnt[1];
  end
 
- assign T_EV0 = 60000000/(20*rpm_Mta + 1);
+// assign T_EV0 = 60000000/(20*rpm_Mta + 1);
+ assign T_EV0 = 60000000/(20*rpm + 1);
  assign T_EV1 = 60000000/(20*rpm + 1);
 
  

@@ -43,6 +43,8 @@ alias c "
 
 	
 	vlog -O0 +acc $SRC/peripherial/IOmodule/IOmodule.sv
+	vlog -O0 +acc $SRC/peripherial/LED8x4/LED8x4.sv
+	vlog -O0 +acc $SRC/peripherial/LED8x4/LED8x8.sv
 	vlog -O0 +acc $SRC/peripherial/uart_module/UART.sv
 	vlog -O0 +acc $SRC/peripherial/uart_module/asinhFIFOa_sim.sv
 

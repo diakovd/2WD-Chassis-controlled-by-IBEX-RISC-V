@@ -14,7 +14,7 @@
 
 // Memory map
 #define IO_BASE_ADDR 0x4000
-#define IO_SIZE      0x00008
+#define IO_SIZE      0x0000c
 #define UART0_BASE_ADDR (IO_BASE_ADDR + IO_SIZE)
 #define UART0_SIZE   0x00010
 #define Timer_BASE_ADDR (UART0_BASE_ADDR + UART0_SIZE)

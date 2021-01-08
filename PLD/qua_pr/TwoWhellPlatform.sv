@@ -11,6 +11,16 @@
 	output 		 ENb,
 	input  [1:0] Evnt,
 
+	output [7:0] LEDen,
+	output	LEDA,
+	output	LEDB,
+	output	LEDC,
+	output	LEDD,
+	output	LEDE,
+	output	LEDF,
+	output	LEDG,
+	output	LEDDP,
+
 	input Btn,
 
     input Clk,
@@ -57,6 +67,17 @@ endgenerate
     .RX(RX),
 	
 	.IO(IO),
+	
+	.LEDen(LEDen),
+	.LEDA(LEDA),
+	.LEDB(LEDB),
+	.LEDC(LEDC),
+	.LEDD(LEDD),
+	.LEDE(LEDE),
+	.LEDF(LEDF),
+	.LEDG(LEDG),
+	.LEDDP(LEDDP),	
+	
 	.PWM(PWM),
 	.Evnt(Evnt),
 	

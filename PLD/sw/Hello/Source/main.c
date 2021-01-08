@@ -69,6 +69,7 @@ uint8_t sendEV0[] = " ev0 = ";
 uint8_t sendEV1[] = " ev1 = ";
 uint8_t ISR_uart;
 uint32_t ISR_tm;
+uint8_t str[20] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 uint8_t rpm_min = 0;
 uint8_t rpm_max = 190;
@@ -114,6 +115,7 @@ float y2u(float y)
   maxY = Kp*rpm_max + Ki*max_integral + Kd*rpm_max;
   minY = -maxY;
   u = (y-minY)/(maxY-minY)*(maxU-minU)+minU;
+
   if(u>maxU) u = maxU;
   if(u<minU) u = minU;
   return u;
@@ -159,15 +161,15 @@ handle_trap(uintptr_t mcause, uintptr_t epc)
     if (mcause == 0x80000003){ //UART interrupt
       ISR_uart = UART0_REG(dISR_UART);
       pullInt  = pullInt | uartInt;
-      IO_REG32(0x4) = pullInt; 
-      IO_REG32(0x4) = ISR_uart;
+      //IO_REG32(0x8) = pullInt; 
+      //IO_REG32(0x8) = ISR_uart;
     }
     else if (mcause == 0x80000007){ //Timer interrupt
       ISR_tm = ISR_tm | Timer_REG(dISR);
       Timer_REG(dISC) = ISR_tm;  
       pullInt  = pullInt | tmInt;
-      IO_REG32(0x4) = pullInt;
-      IO_REG32(0x4) = ISR_tm;
+      //IO_REG32(0x8) = pullInt;
+      //IO_REG32(0x8) = ISR_tm;
     }
   return epc;
 }
@@ -178,7 +180,7 @@ void init_timer(void) {
   uint32_t ECR;
   uint32_t IEC;
 
-  Timer_REG(dTmPrSh) = 0xffffffff;
+  Timer_REG(dTmPrSh) = 0x5F5E10;
 
   //Set Timer mode
   TMS = 0; //Set TCM Center aligned mode
@@ -194,15 +196,15 @@ void init_timer(void) {
 
  //Connection Matrix Control
   ECR = 1; // Event 0 Edge Selection on rising edge
-  ECR = ECR | (0x1 << 2); // Event 1 Edge Selection on rising edge
-  ECR = ECR | (0x3 << 9); // Event 0 Low Pass Filter Configuration
+  ECR = ECR | (0x1 << 2);  // Event 1 Edge Selection on rising edge
+  ECR = ECR | (0x3 << 9);  // Event 0 Low Pass Filter Configuration
   ECR = ECR | (0x3 << 11); // Event 1 Low Pass Filter Configuration
 
   Timer_REG(dECR) = ECR;
 
   //Set Interrupt 
   IEC = 0;
-  IEC = IEC | tm_Ev0DS | tm_Ev1DS;
+  IEC = IEC | tm_Ev0DS | tm_Ev1DS | tm_PMup;
   Timer_REG(dIEC) =  IEC; 
 
 }
@@ -253,10 +255,10 @@ void init_UART(void) {
 void main(void) {
  
  uint32_t i, TmCap1mCap0;
- uint8_t str[20] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+
  float tic = 0.03333;
  uint32_t min = 60000000;
- uint32_t rpm;
+ uint32_t rpm, len;
  uint8_t RxCntL;
  uint8_t j,state = 0, cmd = 0, cmd_val = 0, cmdRX = 0;
  
@@ -284,10 +286,24 @@ void main(void) {
       U = y2u(Y);
       Timer1_REG(dTmCmpSh) = (int) U;
 
- //     IO_REG32(0x4) = TmCap1mCap0;
+
+ //     IO_REG32(0x4) = TmCap1mCap0; 0x5c 0x6e
       for(i = 0; i < 7; i++) UART0_REG(dFIFOtx_UART) = sendEV0[i];
       sprintf(str, "%d", rpm);
-      for(i = 0; i < strlen(str); i++) UART0_REG(dFIFOtx_UART) = str[i];
+      len = strlen(str);
+      for(i = 0; i < len; i++)  UART0_REG(dFIFOtx_UART) = str[i];
+
+      if(ISR_tm & tm_PMup){
+        sprintf(str, "%d", (int) Y);
+        len = strlen(str);
+        for(i = 0; i < 8; i++)  {
+          if(i > len) IO_REG8(0x4 + i) = 0;
+          else IO_REG8(0x4 + i) = str[len - i - 1];
+        }
+        ISR_tm =ISR_tm & ~tm_PMup;
+      }
+
+      UART0_REG(dFIFOtx_UART) = 0x0A;
     };
 
     ISR_tm =ISR_tm & ~tm_Ev0DS;
@@ -314,7 +330,7 @@ void main(void) {
   }
   else if (pullInt & uartInt){
     RxCntL = UART0_REG(dRxCntL_UART);
-    IO_REG32(0x4) = RxCntL;
+    //IO_REG32(0x8) = RxCntL;
 
     //for (j =0; j < RxCntL; j++) str[j] = UART0_REG(dFIFOrx_UART);
     //for(j = 0; j < RxCntL; j++) UART0_REG(dFIFOtx_UART) = str[j];
@@ -324,7 +340,7 @@ void main(void) {
     //RX cmd
     for (j =0; j < RxCntL; j++){
       str[0] = UART0_REG(dFIFOrx_UART);
-      IO_REG32(0x4) = str[0];
+      //IO_REG32(0x8) = str[0];
       switch(state)
       {
         case 0:
@@ -357,13 +373,13 @@ void main(void) {
           state = 0;
           break;
       }
-      IO_REG32(0x4) = state;
+      //IO_REG32(0x8) = state;
     }
     if(UART0_REG(dRxCntL_UART) == 0) pullInt = pullInt & (~uartInt);
   }
   else if (cmdRX != 0){
     if(cmd == 0x1){ //enable Drive
-      IO_REG32(0x0) = cmd_val;
+      //IO_REG32(0x0) = cmd_val;
       cmdRX = 0;
     }
     else if(cmd == 0x2){ //set PWM ev0
