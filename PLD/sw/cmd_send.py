@@ -8,16 +8,16 @@ Created on Mon Dec 28 22:38:30 2020
 import serial
 import time
 
-ser = serial.Serial(port = 'COM4', baudrate=921600, parity=serial.PARITY_ODD)
+ser = serial.Serial(port = 'COM3', baudrate=921600,timeout=1, parity=serial.PARITY_ODD)
 if(ser.isOpen() == False):
     ser.open()
-    
+     
 dat = bytearray('cmd',encoding = 'utf-8') 
 dat.append(0x1)
-dat.append(0x1)
+dat.append(0x4)
 ser.write(dat)
 
-t1 = time.time()
+#t1 = time.time()
 '''
 dat = bytearray('cmd',encoding = 'utf-8') 
 dat.append(0x2)
@@ -29,9 +29,27 @@ dat.append(0x3)
 dat.append(0xbf)
 ser.write(dat)
 '''
-  
-print(ser.read(5))
-t2 = time.time()
+line = ''
+rx = ''
+rpm = 0
+cnt = 0
+for i in range(1500):
+    rx = ser.read(1).decode('utf-8')
+    if(rx == '\n'):
+        st  = line.index('=') + 1
+        end = len(line)
+        rpm = rpm + int(line[st:end])
+        cnt = cnt + 1
+        #print(line)
+        line = ''
+    else:
+        line = line + rx
+rpm = rpm/cnt
+print('rpm',rpm)
 
-print(t2-t1)
+dat = bytearray('cmd',encoding = 'utf-8') 
+dat.append(0x1)
+dat.append(0x0)
+ser.write(dat)
+
 ser.close()

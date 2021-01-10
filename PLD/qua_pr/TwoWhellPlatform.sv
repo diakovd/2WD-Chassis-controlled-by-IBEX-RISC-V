@@ -87,9 +87,9 @@ endgenerate
  );
 
  assign Mta =(IO[0])? {!PWM[0],PWM[0]} : {PWM[0],!PWM[0]};
- assign ENa = !Btn;//IO[2];
+ assign ENa = !Btn | IO[2];
  assign Mtb =(IO[1])? {PWM[1],!PWM[1]} : {!PWM[1],PWM[1]};
- assign ENb = !Btn;//IO[3];
+ assign ENb = !Btn | IO[3];
 
 
  endmodule

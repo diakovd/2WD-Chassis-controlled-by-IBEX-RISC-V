@@ -78,11 +78,11 @@ uint8_t rpm_max = 190;
 
 uint8_t minU = 0xA0;
 uint8_t maxU = 0xFF;
-uint8_t goalSpeed = 10;
+uint8_t goalSpeed = 101;
 
-float Kp = 0.5; // Коэффициенты П, И и Д - звеньев
-float Ki = 0;
-float Kd = 0;
+float Kp = 5; // Коэффициенты П, И и Д - звеньев
+float Ki = 0.2;
+float Kd = 0.2;
 
 float integral = 0;
 float pred_err = 0;
@@ -91,13 +91,47 @@ float max_integral = 100.0;
 float error;
 float Y,U;
 
+void ComSendInt(uint8_t * text, uint32_t value){
+  uint8_t i;
+  uint8_t buf[10];
+  sprintf(buf, "%d", value);
+  for(i = 0; i < strlen(text); i++) UART0_REG(dFIFOtx_UART) = text[i];
+  for(i = 0; i < strlen(buf);  i++) UART0_REG(dFIFOtx_UART) = buf[i];
+}
+
+void ComSendFl(uint8_t * text, float value){
+  uint8_t i;
+  uint8_t buf[10];
+
+  int tmpInt1 = value;
+  float tmpFrac = value - tmpInt1;
+  if(tmpFrac < 0) tmpFrac = tmpFrac*(-1);
+  int   tmpInt2 = tmpFrac * 100;
+
+  sprintf(buf, "%d.%d", tmpInt1, tmpInt2);
+  for(i = 0; i < strlen(text); i++) UART0_REG(dFIFOtx_UART) = text[i];
+  for(i = 0; i < strlen(buf); i++)  UART0_REG(dFIFOtx_UART)  = buf[i];
+}
+
+void print_to_LED8x8(int value){
+        uint8_t len;
+        sprintf(str, "%d", value);
+        len = strlen(str);
+        for(i = 0; i < 8; i++)  {
+          if(i > len) IO_REG8(0x4 + i) = 0;
+          else IO_REG8(0x4 + i) = str[len - i - 1];
+        }
+}
+
 float Eval(float err)
 { 
   float y;
 
+  //ComSendFl("err = ",err);
+
   integral = integral + err; // добавить ошибку в сумму ошибок
   if(integral>max_integral) integral=max_integral;
-  if(integral<min_integral) integral=min_integral;
+  if(integral<min_integral) integral=min_integral; 
   float rdiff = Kd*(err - pred_err);
   // вычисление управляющего воздействия
   y = (Kp*err + Ki*integral + rdiff);
@@ -161,6 +195,7 @@ handle_trap(uintptr_t mcause, uintptr_t epc)
     if (mcause == 0x80000003){ //UART interrupt
       ISR_uart = UART0_REG(dISR_UART);
       pullInt  = pullInt | uartInt;
+      //print_to_LED8x8(55);
       //IO_REG32(0x8) = pullInt; 
       //IO_REG32(0x8) = ISR_uart;
     }
@@ -252,6 +287,7 @@ void init_UART(void) {
 
 }
 
+
 void main(void) {
  
  uint32_t i, TmCap1mCap0;
@@ -282,19 +318,15 @@ void main(void) {
       rpm = min/(tic*TmCap1mCap0*20);
 
       error = goalSpeed - rpm;
-      Y = Eval(error);
+      ComSendInt(sendEV0,rpm);
+
+      Y = Eval( error);
       U = y2u(Y);
+      //ComSendInt(" U = ",U);
       Timer1_REG(dTmCmpSh) = (int) U;
 
-
- //     IO_REG32(0x4) = TmCap1mCap0; 0x5c 0x6e
-      for(i = 0; i < 7; i++) UART0_REG(dFIFOtx_UART) = sendEV0[i];
-      sprintf(str, "%d", rpm);
-      len = strlen(str);
-      for(i = 0; i < len; i++)  UART0_REG(dFIFOtx_UART) = str[i];
-
       if(ISR_tm & tm_PMup){
-        sprintf(str, "%d", (int) Y);
+        sprintf(str, "%d", (int) rpm);
         len = strlen(str);
         for(i = 0; i < 8; i++)  {
           if(i > len) IO_REG8(0x4 + i) = 0;
@@ -312,15 +344,13 @@ void main(void) {
       TmCap1mCap0 = Timer_REG(dTmC3mC2);
       rpm = min/(tic*TmCap1mCap0*20);
 
-      error = goalSpeed - rpm;
-      Y = Eval(error);
-      U = y2u(Y);
-      Timer1_REG(dTmCmpSh) = (int) U;
+      //error = ((float) goalSpeed) - ((float) rpm);
+      //Y = Eval(error);
+      //U = y2u(Y);
+     // Timer1_REG(dTmCmpSh) = (int) U;
 
 //      IO_REG32(0x4) = TmCap1mCap0;
-      for(i = 0; i < 7; i++) UART0_REG(dFIFOtx_UART) = sendEV1[i];
-      sprintf(str, "%d", rpm);
-      for(i = 0; i < strlen(str); i++) UART0_REG(dFIFOtx_UART) = str[i];
+     // ComSendInt(sendEV1,rpm);
     };
 
     ISR_tm =ISR_tm & ~tm_Ev1DS;
@@ -328,14 +358,15 @@ void main(void) {
  //   IO_REG32(0x4) = pullInt; 
 
   }
-  else if (pullInt & uartInt){
+  else if ((pullInt & uartInt) | (UART0_REG(dRxCntL_UART) != 0)){
     RxCntL = UART0_REG(dRxCntL_UART);
+    print_to_LED8x8(RxCntL);
     //IO_REG32(0x8) = RxCntL;
 
     //for (j =0; j < RxCntL; j++) str[j] = UART0_REG(dFIFOrx_UART);
     //for(j = 0; j < RxCntL; j++) UART0_REG(dFIFOtx_UART) = str[j];
     //pullInt = pullInt & (~uartInt);
-    //IO_REG32(0x4) = pullInt;
+    //RxCntL = 0;
 
     //RX cmd
     for (j =0; j < RxCntL; j++){
@@ -379,7 +410,8 @@ void main(void) {
   }
   else if (cmdRX != 0){
     if(cmd == 0x1){ //enable Drive
-      //IO_REG32(0x0) = cmd_val;
+      print_to_LED8x8(cmd_val);
+      IO_REG32(0x0) = cmd_val;
       cmdRX = 0;
     }
     else if(cmd == 0x2){ //set PWM ev0
