@@ -71,18 +71,18 @@ uint8_t ISR_uart;
 uint32_t ISR_tm;
 uint8_t str[20] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
-uint8_t rpm_min = 0;
-uint8_t rpm_max = 190;
+uint8_t rpm_min = 100;
+uint8_t rpm_max = 245;
 
 
 
-uint8_t minU = 0xA0;
-uint8_t maxU = 0xFF;
-uint8_t goalSpeed = 101;
+uint8_t minU = 0x92;
+uint8_t maxU = 0xFE;
+uint8_t goalSpeed = 100;
 
-float Kp = 5; // Коэффициенты П, И и Д - звеньев
-float Ki = 0.2;
-float Kd = 0.2;
+float Kp = 1; // Коэффициенты П, И и Д - звеньев
+float Ki = 0;
+float Kd = 0;
 
 float integral = 0;
 float pred_err = 0;
@@ -147,7 +147,7 @@ float y2u(float y)
   float minY;
 
   maxY = Kp*rpm_max + Ki*max_integral + Kd*rpm_max;
-  minY = -maxY;
+  minY = 0;
   u = (y-minY)/(maxY-minY)*(maxU-minU)+minU;
 
   if(u>maxU) u = maxU;
@@ -245,16 +245,19 @@ void init_timer(void) {
 }
 
 void init_timer1(void) {
-  uint32_t TMS;
+  uint32_t TMS,PLC;
 
   //set PWM out
-  Timer1_REG(dTmPrSh)   = 0xff;
-  Timer1_REG(dTmCmpSh)  = 0xfe;
-  Timer1_REG(dTmCmpSh1) = 0xfe;
+  Timer1_REG(dTmPrSh)   = 0x1CE3;
+  Timer1_REG(dTmCmpSh)  = 0xfe* 0x1d;
+  Timer1_REG(dTmCmpSh1) = 0xfe* 0x1d;
 
   //Set Timer mode
   TMS = 0; //Set TCM Center aligned mode
-  Timer1_REG(dTMS) = TMS; 
+  Timer1_REG(dTMS) = TMS;
+
+  PLC = 0x3;
+  Timer1_REG(dPLC) = PLC;
 }
 
 void init_intrupt(void) {
@@ -276,15 +279,15 @@ void init_UART(void) {
   uint8_t CR;
 
   CR = 0;
-  CR = CR | 0x01;  //Set Odd parity
+ // CR = CR | 0x01;  //Set Odd parity
   CR = CR | (0x1 << 3); //set Rx Data Available Interrupt
  //CR = CR | (0x1 << 4); //set Tx Empty Interrupt
  //CR = CR | (0x1 << 5); //set Rx Error Status Interrupt
  //CR = CR | (1'b1 << 6); //Internal Loop TX to RX
 
   UART0_REG(dCR_UART)  = CR; //Set Odd parity
-  UART0_REG(dDLL_UART) = BR921600; //Set 
-
+  UART0_REG(dDLL_UART) = 0;// BR9600 & 0xff;// BR9600;//  BR921600; //Set 
+  UART0_REG(dDLH_UART) = 3;// BR9600;//  BR921600; //Set 
 }
 
 
@@ -294,9 +297,9 @@ void main(void) {
 
  float tic = 0.03333;
  uint32_t min = 60000000;
- uint32_t rpm, len;
+ uint32_t rpm, len, cmd_val = 0;
  uint8_t RxCntL;
- uint8_t j,state = 0, cmd = 0, cmd_val = 0, cmdRX = 0;
+ uint8_t j,state = 0, cmd = 0, cmdRX = 0;
  
  //Timer initialization
   init_timer();
@@ -317,21 +320,22 @@ void main(void) {
       TmCap1mCap0 = Timer_REG(dTmC1mC0);
       rpm = min/(tic*TmCap1mCap0*20);
 
-      error = goalSpeed - rpm;
+      error = ((float) goalSpeed) - ((float) rpm);
       ComSendInt(sendEV0,rpm);
-
-      Y = Eval( error);
-      U = y2u(Y);
-      //ComSendInt(" U = ",U);
-      Timer1_REG(dTmCmpSh) = (int) U;
+     Y = Eval( error);
+      U = 1.33 * (Y + goalSpeed );// y2u(Y);
+      if(U > 254) U = 0xfe;
+      else if(U < 0x92) U = 0x92;
+//      ComSendInt(" U = ",U);
+      Timer1_REG(dTmCmpSh) = ((int) U) * 0x1d;
 
       if(ISR_tm & tm_PMup){
-        sprintf(str, "%d", (int) rpm);
+ /*       sprintf(str, "%d", (int) rpm);
         len = strlen(str);
         for(i = 0; i < 8; i++)  {
           if(i > len) IO_REG8(0x4 + i) = 0;
           else IO_REG8(0x4 + i) = str[len - i - 1];
-        }
+        }*/
         ISR_tm =ISR_tm & ~tm_PMup;
       }
 
@@ -344,13 +348,15 @@ void main(void) {
       TmCap1mCap0 = Timer_REG(dTmC3mC2);
       rpm = min/(tic*TmCap1mCap0*20);
 
-      //error = ((float) goalSpeed) - ((float) rpm);
-      //Y = Eval(error);
-      //U = y2u(Y);
-     // Timer1_REG(dTmCmpSh) = (int) U;
+      error = ((float) goalSpeed) - ((float) rpm);
+      Y = Eval(error);
+      U = 1.33 * (Y + goalSpeed );
+      if(U > 254) U = 0xfe;
+      else if(U < 0x92) U = 0x92;
+      Timer1_REG(dTmCmpSh1) = ((int) U) * 0x1d;
 
 //      IO_REG32(0x4) = TmCap1mCap0;
-     // ComSendInt(sendEV1,rpm);
+      ComSendInt(sendEV1,rpm);
     };
 
     ISR_tm =ISR_tm & ~tm_Ev1DS;
@@ -360,7 +366,7 @@ void main(void) {
   }
   else if ((pullInt & uartInt) | (UART0_REG(dRxCntL_UART) != 0)){
     RxCntL = UART0_REG(dRxCntL_UART);
-    print_to_LED8x8(RxCntL);
+    //print_to_LED8x8(RxCntL);
     //IO_REG32(0x8) = RxCntL;
 
     //for (j =0; j < RxCntL; j++) str[j] = UART0_REG(dFIFOrx_UART);
@@ -410,16 +416,18 @@ void main(void) {
   }
   else if (cmdRX != 0){
     if(cmd == 0x1){ //enable Drive
-      print_to_LED8x8(cmd_val);
       IO_REG32(0x0) = cmd_val;
+      print_to_LED8x8(cmd_val);
       cmdRX = 0;
     }
     else if(cmd == 0x2){ //set PWM ev0
+      cmd_val = cmd_val * 0x1d;
       Timer1_REG(dTmCmpSh)  = cmd_val;
+      print_to_LED8x8(cmd_val);
       cmdRX = 0;
     }
     else if(cmd == 0x3){ //set PWM ev1
-      Timer1_REG(dTmCmpSh1) = cmd_val;
+      Timer1_REG(dTmCmpSh1) = cmd_val * 0x1d;
       cmdRX = 0;
     }
     else{ //cmd unnow

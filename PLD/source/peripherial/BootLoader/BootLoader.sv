@@ -269,6 +269,7 @@
 					en_ctr_rx 	<= 1;
 					state_rx 	<= st1_rx;
 				end
+				else en_ctr_rx 	<= 0;
 				wr_rx 	  <= 0;
 				parity_rx <= 0;
 				one_half  <= 1;

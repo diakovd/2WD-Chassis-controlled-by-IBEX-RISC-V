@@ -5,16 +5,16 @@ Created on Sat Jan  9 19:23:00 2021
 @author: Dmitry
 """
 
-rpm_min = 0;
-rpm_max = 190;
+rpm_min = 100;
+rpm_max = 245;
 
 
 
-minU = 0xA0;
-maxU = 0xFF;
+minU = 0x92;
+maxU = 0xFe;
 goalSpeed = 150;
 
-Kp = 0.5; 
+Kp = 1; 
 Ki = 0.0;
 Kd = 0.0;
 
@@ -44,15 +44,18 @@ def Eval(err):
     #для след. вычисления
     return y
 
-error = 0#150 - 135
+error = 00#150 - 135
 rpm = 150
-error = goalSpeed - rpm;
+#error = goalSpeed - rpm;
 
 y = Eval(error)
 print('Eval = ', y)
 
 maxY = Kp*rpm_max + Ki*max_integral + Kd*rpm_max;
-minY = -maxY
+minY = 0
+print(maxY)
+print(minY)
 
-u = (y-minY)/(maxY-minY)*(maxU-minU)+minU;
+#u = (y-minY)/(maxY-minY)*(maxU-minU)+minU;
+u = 1.33 * (y + goalSpeed )
 print("u = ", u)

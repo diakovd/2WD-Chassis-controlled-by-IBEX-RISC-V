@@ -13,7 +13,7 @@
  `define size_IOmodule 		32'h0000C
 
  `define addrBASE_UART0  (`addrBASE_IOmodule + `size_IOmodule)
- `define size_UART0 	   32'h00010
+ `define size_UART0 	   32'h00014
 
  `define addrBASE_Timer (`addrBASE_UART0 + `size_UART0)
  `define size_Timer 	   32'h00060

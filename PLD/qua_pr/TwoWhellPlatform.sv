@@ -4,6 +4,12 @@
  
 	output TX,
 	input  RX,
+
+	output TXble,
+	input  RXble,
+	output ENble,
+	
+	input  SWuart,
 	
 	output [1:0] Mta,
 	output 		 ENa,
@@ -36,6 +42,9 @@
  wire [31:0] IO;
  logic [1:0] PWM;
  
+ logic TXs;
+ logic RXs;
+ 
 generate
 
 if(VENDOR == "IntelFPGA") begin
@@ -63,8 +72,8 @@ endgenerate
 	.MEM_SIZE(MEM_SIZE)
  )
  ibex_sys_inst(
-    .TX(TX),
-    .RX(RX),
+    .TX(TXs),
+    .RX(RXs),
 	
 	.IO(IO),
 	
@@ -85,11 +94,16 @@ endgenerate
 	.Clk_14_7456MHz(Clk_14_7456MHz),
 	.clk_sys(Clk_sys)
  );
+ 
+ assign TX    = (SWuart)? 1'b0 : TXs; 
+ assign TXble = (SWuart)? TXs  : 1'b0; 
+ assign RXs   = (SWuart)? RXble: RX;
+ assign ENble = (SWuart)? 1'b1 : 1'b0;
 
- assign Mta =(IO[0])? {!PWM[0],PWM[0]} : {PWM[0],!PWM[0]};
- assign ENa = !Btn | IO[2];
- assign Mtb =(IO[1])? {PWM[1],!PWM[1]} : {!PWM[1],PWM[1]};
- assign ENb = !Btn | IO[3];
+ assign Mta =(IO[0])? {1'b0,1'b1} : {1'b1,1'b0};
+ assign ENa = (!Btn | IO[2]) & PWM[0];
+ assign Mtb =(IO[1])? {1'b1,1'b0} : {1'b0,1'b1};
+ assign ENb = (!Btn | IO[3]) & PWM[1];
 
 
  endmodule

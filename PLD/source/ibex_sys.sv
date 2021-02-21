@@ -293,7 +293,7 @@
 	.Clk(clk_sys)
  );
 
- Timer #(.addrBase(`addrBASE_Timer1),.bw(16),.bwPWM(2)) Timer1_inst (
+ Timer #(.addrBase(`addrBASE_Timer1),.bw(32),.bwPWM(2)) Timer1_inst (
 	.CPUdat(data_DatBus.Slave),
 	.CPUctr(Timer1_CtrBus.Slave),
 

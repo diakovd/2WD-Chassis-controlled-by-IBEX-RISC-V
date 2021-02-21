@@ -151,7 +151,7 @@ assign addr = {CPUdat.addr[31 :2], addr_low} - addrBase;
 			FCR.RxClear <= 0;
 		end
 		if (wr & addr == `defU_DLL)  DLR[7:0]  <= wrdata;
-		if (wr & addr == `defU_DLH)  DLR[15:0] <= wrdata;
+		if (wr & addr == `defU_DLH)  DLR[15:8] <= wrdata;
 	
 		if(FCR.TxClear) ctr_TxFlush <= 3'b111;
 		else if(ctr_TxFlush > 0) begin
@@ -513,6 +513,7 @@ endgenerate
 					en_ctr_rx 	<= 1;
 					state_rx 	<= st1_rx;
 				end
+				else en_ctr_rx 	<= 0;
 				wr_rx 	  <= 0;
 				parity_rx <= 0;
 				one_half  <= 1;
