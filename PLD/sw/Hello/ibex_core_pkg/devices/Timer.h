@@ -18,8 +18,8 @@
  #define dTmCap1	0x38
  #define dTmCap2	0x3C
  #define dTmCap3	0x40
- #define dTmC1mC0   0x44
- #define dTmC3mC2   0x48
+ #define dTmC1mC0       0x44
+ #define dTmC3mC2       0x48
  #define dTmCmp 	0x4C
  #define dTmCmpSh	0x50
  #define dTmCmp1 	0x54

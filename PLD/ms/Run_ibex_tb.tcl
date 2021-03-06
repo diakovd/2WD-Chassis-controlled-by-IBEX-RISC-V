@@ -6,6 +6,7 @@ set QUApr   "../qua_pr"
 alias c "
 	vlog -O0 +acc $RV_ROOT/ibex_pkg.sv
 	vlog -O0 +acc $RV_ROOT/ibex_tracer_pkg.sv
+	vlog -O0 +acc $SRC/bus_mux/ahb3lite_bus/ahb3lite_bus.sv 
 	
 	vlog -O0 +acc $RV_ROOT/ibex_core.sv
 	vlog -O0 +acc $RV_ROOT/ibex_if_stage.sv 

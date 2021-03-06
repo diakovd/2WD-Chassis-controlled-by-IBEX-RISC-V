@@ -19,11 +19,20 @@ def cmd_send(cmd,val):
     dat = bytearray('cmd',encoding = 'utf-8') 
     dat.append(cmd)
     dat.append(val)
+    print(dat)
     ser.write(dat)
 
-left  = 0x4
+# Whell on enable bit  
+Left  = 0x4
+Right = 0x8
+
+# cmd define
 drive = 0x1
-PWM_left = 0x2
+SpeedLeft  = 0x2
+SpeedRight = 0x3
+Cnt_Left   = 0x4    #set count of left  whell decoder
+Cnt_Right  = 0x5    #set count of Right whell decoder
+
 
 #t1 = time.time()
 '''
@@ -66,7 +75,7 @@ def pwmTOrpm():
                 end = len(line)
                 rpm = rpm + int(line[st:end])
                 cnt = cnt + 1
-                line = ''
+                line = ' '
             else:
                 line = line + rx
                 
@@ -80,10 +89,20 @@ def pwmTOrpm():
         time.sleep(1)
         ser.flushInput()
 
-pwmTOrpm()
+#pwmTOrpm()
     
-j = 0xa0
-cmd_send(PWM_left, j)
-cmd_send(drive, 0x0)
+j = 100
+cmd_send(SpeedLeft,  j)
+cmd_send(SpeedRight, j)
+
+cmd_send(Cnt_Left , 1 * 20) #set n rotation of whell 
+cmd_send(Cnt_Right, 1 * 20) #set n rotation of whell 
+
+cmd_send(drive, Left | Right | 0x3)
+
+time.sleep(1)
+ser.flushInput()
+
+#cmd_send(drive, 0)
 ser.close()
 fw.close()

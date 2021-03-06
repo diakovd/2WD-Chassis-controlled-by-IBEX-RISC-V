@@ -44,6 +44,7 @@
  
  logic TXs;
  logic RXs;
+ logic STap_clk;
  
 generate
 
@@ -53,7 +54,8 @@ if(VENDOR == "IntelFPGA") begin
 	.areset ( 1'b0),
 	.inclk0 ( Clk ),
 	.c0 ( Clk_14_7456MHz ),
-	.c1 ( Clk_sys )	
+	.c1 ( Clk_sys ),	
+	.c2 ( STap_clk )	
 	);
 
 end
@@ -95,8 +97,8 @@ endgenerate
 	.clk_sys(Clk_sys)
  );
  
- assign TX    = (SWuart)? 1'b0 : TXs; 
- assign TXble = (SWuart)? TXs  : 1'b0; 
+ assign TX    = (SWuart)? 1'b1 : TXs; 
+ assign TXble = (SWuart)? TXs  : 1'b1; 
  assign RXs   = (SWuart)? RXble: RX;
  assign ENble = (SWuart)? 1'b1 : 1'b0;
 

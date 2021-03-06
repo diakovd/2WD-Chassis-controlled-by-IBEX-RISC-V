@@ -1,7 +1,7 @@
 `include "../source/defines.sv"
 
 // `define XilinxBoard
-
+ 
  module ibex_sys_tb;
  
  parameter VENDOR = "Simulation"; //optional "IntelFPGA", "Simulation", "Xilinx"
@@ -18,6 +18,7 @@
  logic [1:0] Evnt = 0;
  int  rpm = 190;
  int T_EV0, T_EV1;
+ logic SWuart = 0;
 	
  initial #(200*(`tm_scale)) Rstn = 1; 
   
@@ -51,6 +52,7 @@
 	.TX(TX),
 	.RX(RX),
 //	output [31:0] LED,
+	.SWuart(SWuart),
 	.Mta(Mta),
 	.ENa(ENa),
 	.Mtb(Mtb),

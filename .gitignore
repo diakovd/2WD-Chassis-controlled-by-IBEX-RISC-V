@@ -32,6 +32,7 @@ PLD/source/nppBackup
 PLD/source/ibex_sys.sv.bak
 PLD/source/peripherial/BootLoader/nppBackup
 PLD/source/peripherial/Timer/nppBackup
+PLD/source/peripherial/Timer/UVMtest/nppBackup
 PLD/source/peripherial/uart_module/nppBackup
 PLD/source/ram/nppBackup
 PLD/source/tb/nppBackup

@@ -78,7 +78,11 @@ uint8_t rpm_max = 245;
 
 uint8_t minU = 0x92;
 uint8_t maxU = 0xFE;
-uint8_t goalSpeed = 100;
+uint8_t goalRPM_left  = 100;
+uint8_t goalRPM_Right = 100;
+uint32_t cnt_Left  = 0;
+uint32_t cnt_Right = 0;
+uint32_t drive = 0;
 
 float Kp = 1; // Коэффициенты П, И и Д - звеньев
 float Ki = 0;
@@ -91,12 +95,19 @@ float max_integral = 100.0;
 float error;
 float Y,U;
 
+float Krpm = 6.0006;
+float tic = 0.03333;
+uint32_t min = 60000000;
+uint32_t rpm,rpm1;
+
+
 void ComSendInt(uint8_t * text, uint32_t value){
   uint8_t i;
   uint8_t buf[10];
   sprintf(buf, "%d", value);
   for(i = 0; i < strlen(text); i++) UART0_REG(dFIFOtx_UART) = text[i];
   for(i = 0; i < strlen(buf);  i++) UART0_REG(dFIFOtx_UART) = buf[i];
+  UART0_REG(dFIFOtx_UART) = 0x0A;
 }
 
 void ComSendFl(uint8_t * text, float value){
@@ -111,6 +122,7 @@ void ComSendFl(uint8_t * text, float value){
   sprintf(buf, "%d.%d", tmpInt1, tmpInt2);
   for(i = 0; i < strlen(text); i++) UART0_REG(dFIFOtx_UART) = text[i];
   for(i = 0; i < strlen(buf); i++)  UART0_REG(dFIFOtx_UART)  = buf[i];
+  UART0_REG(dFIFOtx_UART) = 0x0A;
 }
 
 void print_to_LED8x8(int value){
@@ -215,22 +227,22 @@ void init_timer(void) {
   uint32_t ECR;
   uint32_t IEC;
 
-  Timer_REG(dTmPrSh) = 0x5F5E10;
+  Timer_REG(dTmPrSh) = 0xE4E1C0;//0x16E360;// 0x5F5E10;
 
   //Set Timer mode
   TMS = 0; //Set TCM Center aligned mode
   TMS = TMS | (0x1 << 2); //Capture Compare Mode
-  TMS = TMS | (0x1 << 9); //Capture Compare Mode
+//  TMS = TMS | (0x1 << 9); //Capture Compare Mode
   Timer_REG(dTMS) = TMS; 
 
  //Connection Matrix Control
   CMC = 0;
-  CMC = CMC | (0x1 << 4); //External Capture 0 Func??on triggered by Event 0
-  CMC = CMC | (0x2 << 6); //External Capture 1 Func??on triggered by Event 1
+  CMC = CMC | (0x1 << 18); //External Count to Capture0 reg triggered by Event 0
+  CMC = CMC | (0x2 << 20); //External Count to Capture2 reg triggered by Event 1
   Timer_REG(dCMC) = CMC;
 
- //Connection Matrix Control
-  ECR = 1; // Event 0 Edge Selection on rising edge
+ //Event control
+  ECR = 1;                 // Event 0 Edge Selection on rising edge
   ECR = ECR | (0x1 << 2);  // Event 1 Edge Selection on rising edge
   ECR = ECR | (0x3 << 9);  // Event 0 Low Pass Filter Configuration
   ECR = ECR | (0x3 << 11); // Event 1 Low Pass Filter Configuration
@@ -239,7 +251,8 @@ void init_timer(void) {
 
   //Set Interrupt 
   IEC = 0;
-  IEC = IEC | tm_Ev0DS | tm_Ev1DS | tm_PMup;
+  IEC = IEC | tm_PMup; // set periode math interrupt
+//  IEC = IEC | tm_Ev0DS | tm_Ev1DS | tm_PMup;
   Timer_REG(dIEC) =  IEC; 
 
 }
@@ -280,7 +293,7 @@ void init_UART(void) {
 
   CR = 0;
  // CR = CR | 0x01;  //Set Odd parity
-  CR = CR | (0x1 << 3); //set Rx Data Available Interrupt
+ // CR = CR | (0x1 << 3); //set Rx Data Available Interrupt
  //CR = CR | (0x1 << 4); //set Tx Empty Interrupt
  //CR = CR | (0x1 << 5); //set Rx Error Status Interrupt
  //CR = CR | (1'b1 << 6); //Internal Loop TX to RX
@@ -290,14 +303,24 @@ void init_UART(void) {
   UART0_REG(dDLH_UART) = 3;// BR9600;//  BR921600; //Set 
 }
 
+uint32_t PID(uint32_t cntR,uint8_t goalRPM){
+  
+  rpm =  Krpm*cntR;
+  error = ((float) goalRPM) - ((float) rpm);
+  Y = Eval(error);
+  U = 1.33 * (Y + goalRPM );
+  
+  if(U > 254) U = 0xfe;
+  else if(U < 0x60) U = 0x60;
+
+  return ((int) U) * 0x1d;
+}
 
 void main(void) {
  
  uint32_t i, TmCap1mCap0;
-
- float tic = 0.03333;
- uint32_t min = 60000000;
- uint32_t rpm, len, cmd_val = 0;
+  
+ uint32_t len, cmd_val = 0;
  uint8_t RxCntL;
  uint8_t j,state = 0, cmd = 0, cmdRX = 0;
  
@@ -316,56 +339,52 @@ void main(void) {
  while(1){  
 
   if(pullInt & tmInt){
-    if(ISR_tm & tm_Ev0DS){
-      TmCap1mCap0 = Timer_REG(dTmC1mC0);
-      rpm = min/(tic*TmCap1mCap0*20);
 
-      error = ((float) goalSpeed) - ((float) rpm);
-      ComSendInt(sendEV0,rpm);
-     Y = Eval( error);
-      U = 1.33 * (Y + goalSpeed );// y2u(Y);
-      if(U > 254) U = 0xfe;
-      else if(U < 0x92) U = 0x92;
-//      ComSendInt(" U = ",U);
-      Timer1_REG(dTmCmpSh) = ((int) U) * 0x1d;
+    if(ISR_tm & tm_PMup){
+      TmCap1mCap0 = Timer_REG(dTmCap1);
+      Timer1_REG(dTmCmpSh) = PID(TmCap1mCap0,goalRPM_left);
 
-      if(ISR_tm & tm_PMup){
- /*       sprintf(str, "%d", (int) rpm);
-        len = strlen(str);
-        for(i = 0; i < 8; i++)  {
-          if(i > len) IO_REG8(0x4 + i) = 0;
-          else IO_REG8(0x4 + i) = str[len - i - 1];
-        }*/
-        ISR_tm =ISR_tm & ~tm_PMup;
+      if(cnt_Left < TmCap1mCap0){
+        cnt_Left = 0;
+        drive    = drive & ~(0x4);
+        IO_REG32(0x0) = drive;
       }
+      else cnt_Left = cnt_Left - TmCap1mCap0;
 
-      UART0_REG(dFIFOtx_UART) = 0x0A;
-    };
+      TmCap1mCap0 = Timer_REG(dTmCap3);
+      Timer1_REG(dTmCmpSh1) = PID(TmCap1mCap0,goalRPM_Right);
 
-    ISR_tm =ISR_tm & ~tm_Ev0DS;
-        
-    if(ISR_tm & tm_Ev1DS){
-      TmCap1mCap0 = Timer_REG(dTmC3mC2);
-      rpm = min/(tic*TmCap1mCap0*20);
+      if(cnt_Right < TmCap1mCap0){
+        cnt_Right = 0;
+        drive    = drive & ~(0x8);
+        IO_REG32(0x0) = drive;
+      }
+      else cnt_Right = cnt_Right - TmCap1mCap0;
 
-      error = ((float) goalSpeed) - ((float) rpm);
-      Y = Eval(error);
-      U = 1.33 * (Y + goalSpeed );
-      if(U > 254) U = 0xfe;
-      else if(U < 0x92) U = 0x92;
-      Timer1_REG(dTmCmpSh1) = ((int) U) * 0x1d;
 
-//      IO_REG32(0x4) = TmCap1mCap0;
-      ComSendInt(sendEV1,rpm);
-    };
+      //if(UART0_REG(dFCR_UART) & 0x2){
+       //ComSendInt(sendEV0,rpm);
+       //ComSendInt(sendEV1,rpm1);
+     // }
+      
 
-    ISR_tm =ISR_tm & ~tm_Ev1DS;
-    pullInt = pullInt & (~tmInt);
- //   IO_REG32(0x4) = pullInt; 
+      ISR_tm =ISR_tm & ~tm_PMup; // clear PM interrupt
+      pullInt = pullInt & (~tmInt); // clear timer interrupt pull flag
+    }
+
+
 
   }
-  else if ((pullInt & uartInt) | (UART0_REG(dRxCntL_UART) != 0)){
+  else if (!(UART0_REG(dFCR_UART) & 0x8)){
+
     RxCntL = UART0_REG(dRxCntL_UART);
+    print_to_LED8x8(RxCntL);
+
+//    while(!(UART0_REG(dFCR_UART) & 0x8)){
+//      str[0] = UART0_REG(dFIFOrx_UART);
+//      UART0_REG(dFIFOtx_UART) = str[0];
+//    }
+
     //print_to_LED8x8(RxCntL);
     //IO_REG32(0x8) = RxCntL;
 
@@ -377,7 +396,10 @@ void main(void) {
     //RX cmd
     for (j =0; j < RxCntL; j++){
       str[0] = UART0_REG(dFIFOrx_UART);
+      UART0_REG(dFIFOtx_UART) = str[0];
       //IO_REG32(0x8) = str[0];
+//      print_to_LED8x8(str[0]);
+
       switch(state)
       {
         case 0:
@@ -416,18 +438,26 @@ void main(void) {
   }
   else if (cmdRX != 0){
     if(cmd == 0x1){ //enable Drive
-      IO_REG32(0x0) = cmd_val;
+      drive = cmd_val;
+      IO_REG32(0x0) = drive;
       print_to_LED8x8(cmd_val);
       cmdRX = 0;
     }
-    else if(cmd == 0x2){ //set PWM ev0
-      cmd_val = cmd_val * 0x1d;
-      Timer1_REG(dTmCmpSh)  = cmd_val;
+    else if(cmd == 0x2){ //set rpm Left
+      goalRPM_left  = cmd_val;
       print_to_LED8x8(cmd_val);
       cmdRX = 0;
     }
-    else if(cmd == 0x3){ //set PWM ev1
-      Timer1_REG(dTmCmpSh1) = cmd_val * 0x1d;
+    else if(cmd == 0x3){ //set rpm Right
+      goalRPM_Right = cmd_val;
+      cmdRX = 0;
+    }
+    else if(cmd == 0x4){ //set count of left whell decoder
+      cnt_Left = cmd_val; 
+      cmdRX = 0;
+    }
+    else if(cmd == 0x5){ //set count of right whell decoder
+      cnt_Right = cmd_val; 
       cmdRX = 0;
     }
     else{ //cmd unnow

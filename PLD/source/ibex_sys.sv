@@ -2,11 +2,13 @@
 // Licensed under the Apache License, Version 2.0, see LICENSE for details.
 // SPDX-License-Identifier: Apache-2.0
  `include "../source/defines.sv"
-
+ `include "../source/bus_mux/ahb3lite_bus/ahb3lite_bus.sv" 
+ 
 // synthesis translate_off
 `define defSIM
 // synthesis translate_on
-
+ import ahb3lite_pkg::*;
+ 
  module ibex_sys (
 	output TX,
 	input  RX,
@@ -82,8 +84,8 @@
  CtrBus IO_CtrBus();
  CtrBus RAM_CtrBus();
  CtrBus UART0_CtrBus();
- CtrBus Timer_CtrBus();
- CtrBus Timer1_CtrBus();
+ ahb3lite_bus tm0_Bus(clk_sys,rst_sys_n);
+ ahb3lite_bus tm1_Bus(clk_sys,rst_sys_n);
 
   ibex_core #(
      .PMPEnable                ( 0            ),
@@ -164,8 +166,8 @@
 	.RAM_CtrBus(RAM_CtrBus.Master),
 	.IO_CtrBus(IO_CtrBus.Master),
 	.UART0_CtrBus(UART0_CtrBus.Master),
-	.Timer_CtrBus(Timer_CtrBus.Master),
-	.Timer1_CtrBus(Timer1_CtrBus.Master),
+	.tm0_Bus(tm0_Bus.master),
+	.tm1_Bus(tm1_Bus.master),
 
 	.Rst(!rst_sys_n | RstBoot),
 	.Clk(clk_sys)
@@ -279,31 +281,53 @@
 	.Clk(clk_sys)
  );
 
- Timer #(.addrBase(`addrBASE_Timer),.bw(32)) Timer_inst (
-	.CPUdat(data_DatBus.Slave),
-	.CPUctr(Timer_CtrBus.Slave),
+ Timer #(
+			.TM_SIZE(32),    		   
+			.PWM_SIZE(1), 		     
+			.BASE(`addrBASE_Timer),
+			.HADDR_SIZE(32),     
+			.HDATA_SIZE(32)      
+		) 
+ // .addrBase(`addrBASE_Timer),.bw(32))
+ Timer_inst (
+	// .CPUdat(data_DatBus.Slave),
+	// .CPUctr(Timer_CtrBus.Slave),
+	.CPUbus(tm0_Bus.slave),
 
 	.Evnt0(Evnt[0]),
 	.Evnt1(Evnt[1]),
 	.Evnt2(1'b0),
 	.PWM(),
 	
-	.Int(Int_Timer),
-	.Rst(!rst_sys_n | RstBoot),
-	.Clk(clk_sys)
+	.Int(Int_Timer)
+	// .Rst(!rst_sys_n | RstBoot),
+	// .Clk(clk_sys)
  );
-
- Timer #(.addrBase(`addrBASE_Timer1),.bw(32),.bwPWM(2)) Timer1_inst (
-	.CPUdat(data_DatBus.Slave),
-	.CPUctr(Timer1_CtrBus.Slave),
+ assign tm0_Bus.HREADY = tm0_Bus.HREADYOUT;
+ 
+ Timer
+	#(
+		.TM_SIZE(32),    		   
+		.PWM_SIZE(2), 		     
+		.BASE(`addrBASE_Timer1),
+		.HADDR_SIZE(32),     
+		.HDATA_SIZE(32)      
+	)
+// #(.addrBase(`addrBASE_Timer1),.bw(32),.bwPWM(2)) 
+ Timer1_inst (
+	// .CPUdat(data_DatBus.Slave),
+	// .CPUctr(Timer1_CtrBus.Slave),
+	.CPUbus(tm1_Bus.slave),
 
 	.Evnt0(1'b0),
 	.Evnt1(1'b0),
 	.Evnt2(1'b0),
 	.PWM(PWM),
 	
-	.Int(Int_Timer1),
-	.Rst(!rst_sys_n | RstBoot),
-	.Clk(clk_sys)
+	.Int(Int_Timer1)
+	// .Rst(!rst_sys_n | RstBoot),
+	// .Clk(clk_sys)
  );
+ assign tm1_Bus.HREADY = tm1_Bus.HREADYOUT;
+
 endmodule

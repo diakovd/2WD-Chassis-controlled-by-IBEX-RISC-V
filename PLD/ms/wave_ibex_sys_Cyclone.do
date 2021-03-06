@@ -14,7 +14,6 @@ add wave -noupdate /ibex_sys_tb/ibex_sys_cycloneIV_inst/Evnt
 add wave -noupdate -divider {New Divider}
 add wave -noupdate -divider Timer
 add wave -noupdate -radix hexadecimal /ibex_sys_tb/ibex_sys_cycloneIV_inst/ibex_sys_inst/Timer_inst/addr
-add wave -noupdate -radix hexadecimal /ibex_sys_tb/ibex_sys_cycloneIV_inst/ibex_sys_inst/Timer_inst/CPUdat/wdata
 add wave -noupdate /ibex_sys_tb/ibex_sys_cycloneIV_inst/ibex_sys_inst/Timer_inst/wr
 add wave -noupdate -divider UART
 add wave -noupdate /ibex_sys_tb/TX
@@ -22,6 +21,10 @@ add wave -noupdate /ibex_sys_tb/RX
 add wave -noupdate -radix hexadecimal /ibex_sys_tb/ibex_sys_cycloneIV_inst/ibex_sys_inst/UART_inst/addr
 add wave -noupdate -radix hexadecimal /ibex_sys_tb/ibex_sys_cycloneIV_inst/ibex_sys_inst/UART_inst/wrdata
 add wave -noupdate /ibex_sys_tb/ibex_sys_cycloneIV_inst/ibex_sys_inst/UART_inst/wr
+add wave -noupdate /ibex_sys_tb/ibex_sys_cycloneIV_inst/ibex_sys_inst/UART_inst/str_rx
+add wave -noupdate /ibex_sys_tb/ibex_sys_cycloneIV_inst/ibex_sys_inst/UART_inst/en_ctr_rx
+add wave -noupdate -radix unsigned /ibex_sys_tb/ibex_sys_cycloneIV_inst/ibex_sys_inst/UART_inst/ctr_rx
+add wave -noupdate /ibex_sys_tb/ibex_sys_cycloneIV_inst/ibex_sys_inst/UART_inst/state_rx
 add wave -noupdate -divider Instr_Bus
 add wave -noupdate -radix hexadecimal /ibex_sys_tb/ibex_sys_cycloneIV_inst/ibex_sys_inst/instr_DatBus/addr
 add wave -noupdate -radix hexadecimal /ibex_sys_tb/ibex_sys_cycloneIV_inst/ibex_sys_inst/instr_DatBus/wdata
@@ -75,7 +78,7 @@ add wave -noupdate -divider IOmodule
 add wave -noupdate /ibex_sys_tb/Rstn
 add wave -noupdate -divider UART
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {27473643 ps} 0}
+WaveRestoreCursors {{Cursor 1} {62770 ns} 0} {{Cursor 2} {10506 ns} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 150
 configure wave -valuecolwidth 100
@@ -91,4 +94,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {0 ps} {3150 ns}
+WaveRestoreZoom {62472 ns} {63425 ns}

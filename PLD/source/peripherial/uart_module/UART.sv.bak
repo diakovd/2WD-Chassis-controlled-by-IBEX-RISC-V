@@ -105,7 +105,7 @@ logic TxFlush;
  fsm_state state_tx;
 
  typedef enum{
-  idle_rx = 1, st1_rx = 2, st2_rx = 3, st2_2rx = 4, st_Break_rx  = 5
+  idle_rx = 1, st1_rx = 2, st2_rx = 3, st2_2rx = 4, st_Break_rx  = 4
   } fsm_state_rx; 
  fsm_state_rx state_rx;
 
@@ -132,7 +132,7 @@ assign addr = {CPUdat.addr[31 :2], addr_low} - addrBase;
 		FCR.RxClear <= 0;
 		FCR.TxEmpty <= 0;
 		ISR  <= 0;	
-		DLR  <= `BR9600;
+		DLR  <= 0;
 		RxFlush <= 0;
 		TxFlush <= 0;
 		ESR		<= 0;
@@ -446,7 +446,7 @@ else if(VENDOR == "IntelFPGA") begin
 	.rdreq ( rd & addr == `defU_FIFOrx ),
 	.rdclk ( Clk ),
 	.rdempty ( FCR.RxEmpty ),
-	.rdusedw ( RxCnt[7:0])
+	.rdusedw ( RxCnt )
 	);
 end
 else if(VENDOR == "Simulation") begin
@@ -478,7 +478,7 @@ endgenerate
 		parity_rx	<= 0;
 		one_half	<= 1;
 		wr_rx		<= 0;
-		str_rx		<= 0;
+		str_rx		= 0;
 		overrunError <= 0;
 		parErr	 	<= 0;
 		StpErr	 	<= 0;
@@ -491,20 +491,20 @@ endgenerate
 		if(en_ctr_rx) begin
 			if(one_half & ctr_rx == (BaudRate - 1)) begin
 				ctr_rx 	<= 0;
-				str_rx	<= 1;
+				str_rx	= 1;
 			end
 			else if(!one_half & ctr_rx == (BaudRate*2 - 1)) begin
 				ctr_rx 	<= 0;
-				str_rx	<= 1;
+				str_rx	= 1;
 			end
 			else begin
 				ctr_rx <= ctr_rx + 1;
-				str_rx <= 0;
+				str_rx = 0;
 			end	
 		end
 		else begin
 			ctr_rx 	<= 0;
-			str_rx	<= 0;
+			str_rx	= 0;
 		end
 	
 		case(state_rx)
@@ -569,7 +569,6 @@ endgenerate
 					end
 					BreakInd <= BreakInd | RXsig;
 				end
-				else en_ctr_rx 	<= 1;
 			end
 			
 			st2_2rx: begin
@@ -585,7 +584,6 @@ endgenerate
 						else state_rx <= idle_rx;						
 					end
 				end
-				else en_ctr_rx 	<= 1;
 			end
 			
 			st_Break_rx: begin
