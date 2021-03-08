@@ -1,0 +1,456 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 2016  Intel Corporation. All rights reserved.
+# Your use of Intel Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Intel Program License 
+# Subscription Agreement, the Intel Quartus Prime License Agreement,
+# the Intel MegaCore Function License Agreement, or other 
+# applicable license agreement, including, without limitation, 
+# that your use is for the sole purpose of programming logic 
+# devices manufactured by Intel and sold by Intel or its 
+# authorized distributors.  Please refer to the applicable 
+# agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus Prime
+# Version 16.1.0 Build 196 10/24/2016 SJ Standard Edition
+# Date created = 23:34:37  December 19, 2020
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		2WhellPlatform_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus Prime software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Cyclone IV E"
+set_global_assignment -name DEVICE EP4CE10E22C6
+set_global_assignment -name TOP_LEVEL_ENTITY TwoWhellPlatform
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 16.1.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "23:34:37  DECEMBER 19, 2020"
+set_global_assignment -name LAST_QUARTUS_VERSION "16.1.0 Standard Edition"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name DEVICE_FILTER_PACKAGE TQFP
+set_global_assignment -name DEVICE_FILTER_PIN_COUNT 144
+set_global_assignment -name DEVICE_FILTER_SPEED_GRADE 6
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
+set_global_assignment -name NOMINAL_CORE_SUPPLY_VOLTAGE 1.2V
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_location_assignment PIN_113 -to TX
+set_location_assignment PIN_114 -to RX
+set_location_assignment PIN_23 -to Clk
+set_location_assignment PIN_91 -to sys_rst_n
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to Clk
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to RX
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to TX
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sys_rst_n
+set_location_assignment PIN_44 -to Mtb[0]
+set_location_assignment PIN_49 -to ENb
+set_location_assignment PIN_50 -to Mtb[1]
+set_location_assignment PIN_43 -to ENa
+set_location_assignment PIN_42 -to Mta[0]
+set_location_assignment PIN_46 -to Mta[1]
+set_location_assignment PIN_88 -to Evnt[0]
+set_location_assignment PIN_89 -to Evnt[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to Mtb[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to Mtb[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to Mta[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to Mta[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to Evnt[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to Evnt[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ENb
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ENa
+set_location_assignment PIN_90 -to Btn
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to Btn
+set_global_assignment -name ENABLE_SIGNALTAP ON
+set_global_assignment -name USE_SIGNALTAP_FILE output_files/stp1.stp
+set_global_assignment -name SLD_NODE_CREATOR_ID 110 -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_ENTITY_NAME sld_signaltap -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[0] -to Btn -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[1] -to ENa -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[2] -to ENb -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[0] -to Btn -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[1] -to ENa -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[2] -to ENb -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_RAM_BLOCK_TYPE=AUTO" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_INFO=805334528" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_POWER_UP_TRIGGER=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_INVERSION_MASK_LENGTH=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ATTRIBUTE_MEM_MODE=OFF" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_FLOW_USE_GENERATED=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_BITS=11" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_BUFFER_FULL_STOP=1" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_CURRENT_RESOURCE_WIDTH=1" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INCREMENTAL_ROUTING=1" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[6] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL=1" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_IN_ENABLED=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_PIPELINE=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_RAM_PIPELINE=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_COUNTER_PIPELINE=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL_PIPELINE=1" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[3] -to Evnt[0] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[4] -to Evnt[1] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[5] -to Mta[0] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[6] -to Mta[1] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[7] -to Mtb[0] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[8] -to Mtb[1] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[3] -to Evnt[0] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[4] -to Evnt[1] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[5] -to Mta[0] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[6] -to Mta[1] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[7] -to Mtb[0] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[8] -to Mtb[1] -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[1] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[14] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ENABLE_ADVANCED_TRIGGER=1" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[13] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|Evnt0LPF" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[14] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|Evnt1LPF" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[13] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|Evnt0LPF" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[14] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|Evnt1LPF" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[15] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[0]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[16] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[10]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[17] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[11]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[18] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[12]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[19] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[13]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[20] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[14]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[21] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[15]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[22] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[16]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[23] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[17]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[24] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[18]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[25] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[19]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[26] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[1]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[27] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[20]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[28] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[21]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[29] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[22]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[30] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[23]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[31] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[24]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[32] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[25]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[33] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[26]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[34] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[27]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[35] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[28]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[36] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[29]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[37] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[2]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[38] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[30]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[39] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[31]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[40] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[3]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[41] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[4]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[42] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[5]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[43] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[6]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[44] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[7]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[45] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[8]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[46] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[9]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[47] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[0]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[48] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[10]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[49] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[11]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[50] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[12]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[51] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[13]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[52] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[14]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[53] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[15]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[54] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[16]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[55] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[17]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[56] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[18]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[57] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[19]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[58] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[1]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[59] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[20]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[60] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[21]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[61] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[22]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[62] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[23]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[63] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[24]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[64] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[25]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[65] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[26]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[66] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[27]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[67] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[28]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[68] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[29]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[69] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[2]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[70] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[30]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[71] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[31]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[72] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[3]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[73] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[4]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[74] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[5]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[75] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[6]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[76] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[7]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[77] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[8]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[78] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[9]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[15] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[0]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[16] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[10]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[17] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[11]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[18] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[12]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[19] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[13]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[20] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[14]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[21] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[15]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[22] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[16]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[23] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[17]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[24] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[18]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[25] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[19]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[26] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[1]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[27] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[20]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[28] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[21]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[29] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[22]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[30] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[23]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[31] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[24]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[32] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[25]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[33] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[26]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[34] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[27]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[35] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[28]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[36] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[29]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[37] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[2]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[38] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[30]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[39] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[31]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[40] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[3]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[41] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[4]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[42] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[5]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[43] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[6]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[44] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[7]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[45] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[8]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[46] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC1mC0[9]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[47] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[0]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[48] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[10]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[49] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[11]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[50] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[12]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[51] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[13]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[52] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[14]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[53] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[15]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[54] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[16]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[55] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[17]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[56] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[18]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[57] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[19]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[58] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[1]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[59] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[20]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[60] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[21]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[61] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[22]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[62] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[23]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[63] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[24]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[64] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[25]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[65] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[26]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[66] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[27]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[67] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[28]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[68] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[29]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[69] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[2]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[70] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[30]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[71] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[31]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[72] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[3]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[73] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[4]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[74] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[5]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[75] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[6]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[76] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[7]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[77] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[8]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[78] -to "ibex_sys:ibex_sys_inst|Timer:Timer_inst|TmC3mC2[9]" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK=000000000000000000000000" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK_LENGTH=24" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SEGMENT_SIZE=1024" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SAMPLE_DEPTH=1024" -section_id auto_signaltap_0
+set_global_assignment -name SYSTEMVERILOG_FILE ../source/peripherial/LED8x4/LED8x8.sv
+set_global_assignment -name SDC_FILE SDC1.sdc
+set_global_assignment -name SYSTEMVERILOG_FILE "../ibex-master/rtl/ibex_register_file_ff.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE ../source/ram/rom_1p.sv
+set_global_assignment -name QIP_FILE FIFOa.qip
+set_global_assignment -name SYSTEMVERILOG_FILE "../ibex-master/rtl/prim_clock_gating.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../ibex-master/rtl/ibex_prefetch_buffer.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../ibex-master/rtl/ibex_pmp.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../ibex-master/rtl/ibex_pkg.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../ibex-master/rtl/ibex_multdiv_slow.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../ibex-master/rtl/ibex_multdiv_fast.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../ibex-master/rtl/ibex_load_store_unit.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../ibex-master/rtl/ibex_if_stage.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../ibex-master/rtl/ibex_id_stage.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../ibex-master/rtl/ibex_fetch_fifo.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../ibex-master/rtl/ibex_ex_block.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../ibex-master/rtl/ibex_decoder.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../ibex-master/rtl/ibex_cs_registers.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../ibex-master/rtl/ibex_core.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../ibex-master/rtl/ibex_controller.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../ibex-master/rtl/ibex_compressed_decoder.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../ibex-master/rtl/ibex_alu.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE ../source/bus_mux/bus_mux.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../source/peripherial/BootLoader/BootLoader.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../source/peripherial/IOmodule/IOmodule.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../source/peripherial/Timer/Timer.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../source/peripherial/uart_module/UART.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../source/ibex_sys.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../source/defines.sv
+set_global_assignment -name SYSTEMVERILOG_FILE TwoWhellPlatform.sv
+set_global_assignment -name QIP_FILE RAMdp.qip
+set_global_assignment -name QIP_FILE RAM_instr.qip
+set_global_assignment -name QIP_FILE PLL.qip
+set_global_assignment -name SIGNALTAP_FILE output_files/stp1.stp
+set_global_assignment -name CDF_FILE output_files/Chain1.cdf
+set_location_assignment PIN_127 -to LEDA
+set_location_assignment PIN_126 -to LEDB
+set_location_assignment PIN_125 -to LEDC
+set_location_assignment PIN_115 -to LEDDP
+set_location_assignment PIN_124 -to LEDD
+set_location_assignment PIN_121 -to LEDE
+set_location_assignment PIN_120 -to LEDF
+set_location_assignment PIN_119 -to LEDG
+set_location_assignment PIN_128 -to LEDen[0]
+set_location_assignment PIN_129 -to LEDen[1]
+set_location_assignment PIN_132 -to LEDen[2]
+set_location_assignment PIN_133 -to LEDen[3]
+set_location_assignment PIN_135 -to LEDen[4]
+set_location_assignment PIN_136 -to LEDen[5]
+set_location_assignment PIN_137 -to LEDen[6]
+set_location_assignment PIN_138 -to LEDen[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDA
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDB
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDC
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDD
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDDP
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDE
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDF
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDG
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDen[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDen[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDen[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDen[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDen[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDen[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDen[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDen[0]
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[13] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[15] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[31] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[79] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|FCR.TxEmpty" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[80] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|Int" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[79] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|FCR.TxEmpty" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[80] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|Int" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[21] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[25] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[2] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[3] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[4] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[8] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[12] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[9] -to RX -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[9] -to RX -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[29] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[30] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_location_assignment PIN_58 -to SWuart
+set_location_assignment PIN_55 -to RXble
+set_location_assignment PIN_54 -to TXble
+set_location_assignment PIN_53 -to ENble
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ENble
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to RXble
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SWuart
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to TXble
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[10] -to RXs -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[11] -to TX -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[12] -to "ibex_sys:ibex_sys_inst|TX" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[10] -to RXs -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[11] -to TX -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[12] -to "ibex_sys:ibex_sys_inst|TX" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[5] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[23] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[26] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[7] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[0] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[9] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[16] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[18] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[28] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[17] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[19] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[20] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[22] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[24] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[27] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_clk -to "PLL:PLL_inst|c2" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[81] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|empty_rx_del" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[82] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|en_ctr_rx" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[83] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[0]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[84] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[10]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[85] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[11]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[86] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[12]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[87] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[13]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[88] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[14]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[89] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[15]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[90] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[16]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[91] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[17]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[92] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[18]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[93] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[19]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[94] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[1]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[95] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[20]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[96] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[21]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[97] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[22]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[98] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[23]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[99] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[24]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[100] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[25]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[101] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[26]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[102] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[27]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[103] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[28]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[104] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[29]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[105] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[2]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[106] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[30]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[107] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[31]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[108] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[3]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[109] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[4]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[110] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[5]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[111] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[6]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[112] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[7]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[113] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[8]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[114] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[9]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[115] -to sys_rst_n -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[81] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|empty_rx_del" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[82] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|en_ctr_rx" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[83] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[0]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[84] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[10]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[85] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[11]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[86] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[12]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[87] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[13]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[88] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[14]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[89] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[15]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[90] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[16]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[91] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[17]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[92] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[18]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[93] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[19]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[94] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[1]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[95] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[20]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[96] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[21]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[97] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[22]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[98] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[23]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[99] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[24]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[100] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[25]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[101] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[26]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[102] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[27]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[103] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[28]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[104] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[29]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[105] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[2]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[106] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[30]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[107] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[31]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[108] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[3]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[109] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[4]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[110] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[5]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[111] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[6]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[112] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[7]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[113] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[8]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[114] -to "ibex_sys:ibex_sys_inst|UART:UART_inst|state_rx[9]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[115] -to sys_rst_n -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_DATA_BITS=116" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_BITS=116" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_BITS=116" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[10] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[11] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=sld_reserved_2WhellPlatform_auto_signaltap_0_1_4dfe," -section_id auto_signaltap_0
+set_global_assignment -name ALLOW_REGISTER_RETIMING OFF
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name SLD_FILE db/stp1_auto_stripped.stp
