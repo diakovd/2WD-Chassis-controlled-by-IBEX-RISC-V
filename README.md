@@ -12,8 +12,7 @@ Hardware:
 ## Shematic
  ![Alt text](https://github.com/diakovd/2WD-Chassis-controlled-by-IBEX-RISC-V/blob/master/Schematic_Prints.jpg?raw=true "Title")
 
-## FPGA is based on IBEX system 
-(https://github.com/diakovd/ibex_system.git)
+## FPGA is based on IBEX system https://github.com/diakovd/ibex_system.git
  Consyst:
 - RAM for program code and data storage - 8k byte
 - bus_mux module swith control signal to specific perepherial
